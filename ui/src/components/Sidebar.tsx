@@ -93,8 +93,8 @@ export function Sidebar() {
             label="Dashboard"
             icon={LayoutDashboard}
             liveCount={allAgentsPaused ? undefined : liveRunCount}
-            badge={allAgentsPaused ? "Paused" : undefined}
-            badgeTone={allAgentsPaused ? "warning" : undefined}
+            textBadge={allAgentsPaused ? "Paused" : undefined}
+            textBadgeTone={allAgentsPaused ? "amber" : undefined}
           />
           <SidebarNavItem
             to="/inbox"

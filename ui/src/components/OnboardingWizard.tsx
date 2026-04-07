@@ -447,17 +447,17 @@ export function OnboardingWizard() {
       setCreatedCompanyPrefix(null);
     }
   }, [
-    effectiveOnboardingOpen,
-    effectiveOnboardingOptions.companyId,
-    effectiveOnboardingOptions.initialStep
+    onboardingOpen,
+    onboardingOptions.companyId,
+    onboardingOptions.initialStep
   ]);
 
   // Backfill issue prefix for an existing company once companies are loaded.
   useEffect(() => {
-    if (!effectiveOnboardingOpen || !createdCompanyId || createdCompanyPrefix) return;
+    if (!onboardingOpen || !createdCompanyId || createdCompanyPrefix) return;
     const company = companies.find((c) => c.id === createdCompanyId);
     if (company) setCreatedCompanyPrefix(company.issuePrefix);
-  }, [effectiveOnboardingOpen, createdCompanyId, createdCompanyPrefix, companies]);
+  }, [onboardingOpen, createdCompanyId, createdCompanyPrefix, companies]);
 
   // Persist wizard state to localStorage on every change
   useEffect(() => {
@@ -607,9 +607,7 @@ export function OnboardingWizard() {
     setTaskDescription(DEFAULT_TASK_DESCRIPTION);
     setCreatedCompanyId(null);
     setCreatedCompanyPrefix(null);
-    setCreatedCompanyGoalId(null);
     setCreatedAgentId(null);
-    setCreatedProjectId(null);
     setCreatedIssueRef(null);
   }
 
@@ -949,11 +947,11 @@ Follow this structure for every role in the plan.`,
     }
   }
 
-  if (!effectiveOnboardingOpen) return null;
+  if (!onboardingOpen) return null;
 
   return (
     <Dialog
-      open={effectiveOnboardingOpen}
+      open={onboardingOpen}
       onOpenChange={(open) => {
         if (!open) {
           setRouteDismissed(true);

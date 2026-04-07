@@ -419,7 +419,7 @@ export function FailedRunInboxRow({
           <span className="block text-sm text-muted-foreground">
             {run.errorCode ? `Error code: ${run.errorCode}` : "No linked task"}
           </span>
-        ) : null}
+        )}
         <Link
           to={`/agents/${run.agentId}/runs/${run.id}`}
           className={cn(

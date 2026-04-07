@@ -258,7 +258,12 @@ export async function createApp(
     if (uiDist) {
       const indexHtml = applyUiBranding(fs.readFileSync(path.join(uiDist, "index.html"), "utf-8"));
       app.use(express.static(uiDist));
-      app.get(/.*/, (_req, res) => {
+      app.get(/.*/, (req, res) => {
+        // Don't serve index.html for missing static assets — return 404 so the
+        // browser doesn't treat HTML as JS/CSS after a rebuild changes hashes.
+        if (req.path.startsWith("/assets/")) {
+          return res.status(404).end();
+        }
         res.status(200).set("Content-Type", "text/html").end(indexHtml);
       });
     } else {
