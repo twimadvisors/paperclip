@@ -1,6 +1,8 @@
 #!/bin/sh
+set -e
 # Create Paperclip config for external PostgreSQL
 mkdir -p /paperclip/instances/default
+
 cat > /paperclip/instances/default/config.json << CONF
 {
   "server": {
@@ -14,10 +16,12 @@ cat > /paperclip/instances/default/config.json << CONF
   "secrets": {
     "masterKey": "${PAPERCLIP_SECRETS_MASTER_KEY}"
   },
-  "database.backup": {
-    "enabled": false
+  "storage": {
+    "provider": "local",
+    "dir": "/paperclip/instances/default/data/storage"
   }
 }
 CONF
-chown -R node:node /paperclip
-echo "Twim config created: mode=postgres"
+
+mkdir -p /paperclip/instances/default/data/storage
+echo "Twim config created: mode=postgres, exposure=public"
