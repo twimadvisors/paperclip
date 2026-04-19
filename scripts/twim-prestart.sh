@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e
-# Create Paperclip config for external PostgreSQL
-mkdir -p /paperclip/instances/default
+mkdir -p /paperclip/instances/default/data/storage
 
 cat > /paperclip/instances/default/config.json << CONF
 {
@@ -13,6 +12,10 @@ cat > /paperclip/instances/default/config.json << CONF
     "mode": "postgres",
     "connectionString": "${DATABASE_URL}"
   },
+  "auth": {
+    "baseUrlMode": "explicit",
+    "baseUrl": "https://twim-paperclip-feaf746d.ondigitalocean.app"
+  },
   "secrets": {
     "masterKey": "${PAPERCLIP_SECRETS_MASTER_KEY}"
   },
@@ -23,5 +26,4 @@ cat > /paperclip/instances/default/config.json << CONF
 }
 CONF
 
-mkdir -p /paperclip/instances/default/data/storage
-echo "Twim config created: mode=postgres, exposure=public"
+echo "Twim config created: mode=postgres, auth=explicit"
