@@ -68,11 +68,14 @@ ENV NODE_ENV=production \
   USER_GID=${USER_GID} \
   PAPERCLIP_CONFIG=/paperclip/instances/default/config.json \
   PAPERCLIP_DEPLOYMENT_MODE=authenticated \
-  PAPERCLIP_DEPLOYMENT_EXPOSURE=private \
+  PAPERCLIP_DEPLOYMENT_EXPOSURE=public \
   OPENCODE_ALLOW_ALL_MODELS=true
+
+COPY scripts/twim-prestart.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/twim-prestart.sh
 
 VOLUME ["/paperclip"]
 EXPOSE 3100
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["node", "--import", "./server/node_modules/tsx/dist/loader.mjs", "server/dist/index.js"]
+CMD ["sh", "-c", "twim-prestart.sh && exec node --import ./server/node_modules/tsx/dist/loader.mjs server/dist/index.js"]
