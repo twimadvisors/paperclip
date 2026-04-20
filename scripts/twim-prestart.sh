@@ -2,11 +2,18 @@
 set -e
 mkdir -p /paperclip/instances/default/data/storage
 
-cat > /paperclip/instances/default/config.json << CONF
+cat > /paperclip/instances/default/config.json << EOF
 {
+  "\$meta": {
+    "version": 1,
+    "updatedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+    "source": "onboard"
+  },
   "server": {
     "host": "0.0.0.0",
-    "port": 3100
+    "port": 3100,
+    "bind": "loopback",
+    "deploymentMode": "authenticated"
   },
   "database": {
     "mode": "postgres",
@@ -14,16 +21,21 @@ cat > /paperclip/instances/default/config.json << CONF
   },
   "auth": {
     "baseUrlMode": "explicit",
-    "baseUrl": "https://twim-paperclip-feaf746d.ondigitalocean.app"
+    "baseUrl": "${PAPERCLIP_AUTH_PUBLIC_BASE_URL}",
+    "publicBaseUrl": "${PAPERCLIP_AUTH_PUBLIC_BASE_URL}"
   },
   "secrets": {
     "masterKey": "${PAPERCLIP_SECRETS_MASTER_KEY}"
   },
+  "logging": {
+    "mode": "file",
+    "level": "info"
+  },
   "storage": {
-    "provider": "local",
+    "provider": "local_disk",
     "dir": "/paperclip/instances/default/data/storage"
   }
 }
-CONF
+EOF
 
-echo "Twim config created: mode=postgres, auth=explicit"
+echo "Twim config created: mode=postgres, auth=explicit, deploymentMode=authenticated"
