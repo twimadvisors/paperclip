@@ -12,7 +12,7 @@ cat > /paperclip/instances/default/config.json << EOF
   "server": {
     "host": "0.0.0.0",
     "port": 3100,
-    "bind": "loopback",
+    "bind": "lan",
     "deploymentMode": "authenticated"
   },
   "database": {
